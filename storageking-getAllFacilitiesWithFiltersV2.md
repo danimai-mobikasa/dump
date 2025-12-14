@@ -308,35 +308,22 @@ Estimated Latency: 500-2000ms+ depending on facility count
 
 ---
 
-Latency Impact Summary
+### Latency Impact Summary
+
 | Function | Current Latency | Optimization Potential | Priority |
+| :--- | :--- | :--- | :--- |
+| `getAmenitiesSlugsByGroupSLug` | 50-150ms | 30-100ms saved | Medium |
+| `filterAmenities` (1st call) | 200-800ms | - | High |
+| `filterAmenities` (2nd call - duplicate) | 200-800ms | 200-800ms saved | **Critical** |
+| `getMarketData` | 500-2000ms | 200-800ms saved (remove duplicate filter) | **Critical** |
+| `_getFacilityInfoAndFeatureList` | 300-800ms | 100-200ms saved (optimize subqueries) | Medium |
+| `_getUnitsByFacilityUuid` (N+1) | 500-2000ms+ | 400-1500ms saved | **Critical** |
+| `getFiltersBySearchItem` (1st) | 300-900ms | - | High |
+| `getFiltersBySearchItem` (2nd) | 300-900ms | 300-900ms saved | **Critical** |
+| `getFiltersBySearchItem` (3rd) | 300-900ms | 300-900ms saved | **Critical** |
+| `_getFacilitiesListData` | 500-2000ms | 200-500ms saved (reuse query) | High |
 
-|----------|----------------|----------------------|----------|
-
-| getAmenitiesSlugsByGroupSLug | 50-150ms | 30-100ms saved | Medium |
-
-| filterAmenities (1st call) | 200-800ms | - | High |
-
-| filterAmenities (2nd call - duplicate) | 200-800ms | 200-800ms saved | Critical |
-
-| getMarketData | 500-2000ms | 200-800ms saved (remove duplicate filter) | Critical |
-
-| _getFacilityInfoAndFeatureList | 300-800ms | 100-200ms saved (optimize subqueries) | Medium |
-
-| _getUnitsByFacilityUuid (N+1) | 500-2000ms+ | 400-1500ms saved | Critical |
-
-| getFiltersBySearchItem (1st) | 300-900ms | - | High |
-
-| getFiltersBySearchItem (2nd) | 300-900ms | 300-900ms saved | Critical |
-
-| getFiltersBySearchItem (3rd) | 300-900ms | 300-900ms saved | Critical |
-
-| _getFacilitiesListData | 500-2000ms | 200-500ms saved (reuse query) | High |
-
-Total Current Latency: 2,850ms - 10,250ms+
-
-Potential Savings: 1,400ms - 4,200ms+
-
-Optimized Latency: 1,450ms - 6,050ms
-
----
+**Totals:**
+* **Total Current Latency:** 2,850ms - 10,250ms+
+* **Potential Savings:** 1,400ms - 4,200ms+
+* **Optimized Latency:** 1,450ms - 6,050ms
